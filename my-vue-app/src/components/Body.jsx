@@ -23,7 +23,7 @@ const Body = () => {
         if (err.status == 401) {
          navigate("/login");
         }
-         console.error(err);
+        
      }
 };
 
@@ -31,8 +31,7 @@ const Body = () => {
       fetchUser();
     },
      []);
-
-    return (
+        return (
          <div>
         <NavBar />
         <Outlet />
