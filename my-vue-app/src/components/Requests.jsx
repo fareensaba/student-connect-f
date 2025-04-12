@@ -7,6 +7,16 @@ import { useEffect } from "react";
 const Requests = () => {
     const requsts = useSelector((store) => store.requests);
     const dispatch = useDispatch();
+     const reviewRequest = async (status, _id) => {
+        try {
+          const res = axios.post(
+            BASE_URL + "/request/review/" + status + "/" + _id, 
+            {},
+             { withCredentials: true }
+          );
+           dispatch(removeRequest(_id));
+           }  catch (err) {}
+    };  
 
     const fetchRequests = async () => {
         try {
@@ -25,7 +35,8 @@ const Requests = () => {
     
      if (!requests) return;
 
-     if (requests.length == 0) return <h>No Requests Found</h>;
+     if (requests.length == 0) 
+        return <h1 className="flex justify-center my-10">No Requests Found</h1>;
  
      return (
      <div className=" text-center my-10">
@@ -53,8 +64,19 @@ const Requests = () => {
                       <p>{about}</p>
                 </div>
                 <div>
-                <button className="btn btn-primary mx-2">Reject</button>
-                <button className="btn btn-secondary mx-2">Accept</button>
+                <button
+                 className="btn btn-primary mx-2" 
+                onClick={() => reviewRequest("rejected", request._id)}
+                >
+                 Reject
+                 </button>
+
+                <button 
+                className="btn btn-secondary mx-2"
+                onClick={() => reviewRequest("accepted", request._id)}
+                >
+                Accept
+                </button>
                 </div>
                 </div>
                 );
